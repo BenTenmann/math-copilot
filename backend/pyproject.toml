@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "math-copilot"
+version = "0.1.0"
+description = ""
+authors = ["BenTenmann <benji.tenmann@me.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "math_copilot"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+gradio = "^3.32.0"
+pytesseract = "^0.3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
