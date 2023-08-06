@@ -6,9 +6,11 @@ from typing import Final
 from math_copilot.LLM import LLM
 
 import gradio as gr
+# import fastapi
 import numpy as np
 import requests
 from dotenv import load_dotenv, find_dotenv
+# from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
 from math_copilot import linter, utils
@@ -19,6 +21,19 @@ LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 
 MATHPIX_APP_ID: Final[str | None] = os.environ.get("MATHPIX_APP_ID")
 MATHPIX_APP_KEY: Final[str | None] = os.environ.get("MATHPIX_APP_KEY")
+#
+# app = fastapi.FastAPI()
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+#
+#
+# @app.post("/latex")
+# def image_to_latex():
+#     pass
 
 
 def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]], str]:
