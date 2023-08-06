@@ -106,5 +106,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     var markdownPanel = document.getElementById('markdown-panel');
     markdownPanel.innerHTML = html;
+
+    // Typeset the new content with MathJax
+    MathJax.typesetPromise([markdownPanel]);
   }
 });
