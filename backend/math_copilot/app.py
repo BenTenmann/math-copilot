@@ -1,13 +1,15 @@
 import io
 import json
 import os
-
+from dotenv import load_dotenv, find_dotenv
 import gradio as gr
 import requests
 from PIL import Image
 
-MATHPIX_APP_ID: str = os.environ["MATHPIX_APP_ID"]
-MATHPIX_APP_KEY: str = os.environ["MATHPIX_APP_KEY"]
+load_dotenv(find_dotenv())
+
+MATHPIX_APP_ID: str = os.environ.get("MATHPIX_APP_ID")
+MATHPIX_APP_KEY: str = os.environ.get("MATHPIX_APP_KEY")
 
 
 def fn(img):
