@@ -13,12 +13,25 @@
       top: 0;
       left: 0;
     }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
+    }
+    #controls button {
+      margin-right: 5px;
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.3.1/fabric.min.js"></script>
   <script src="script.js" defer></script>
 </head>
 <body>
+  <div id="controls">
+    <button id="draw-button">Draw</button>
+    <button id="move-button">Move</button>
+    <button id="undo-button">Undo</button>
+  </div>
   <canvas id="canvas"></canvas>
-  <button id="undo-button">Undo</button>
 </body>
 </html>
