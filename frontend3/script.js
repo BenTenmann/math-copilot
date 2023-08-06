@@ -26,17 +26,25 @@ window.addEventListener('DOMContentLoaded', (event) => {
   var drawButton = document.getElementById('draw-button');
   drawButton.addEventListener('click', function() {
     canvas.isDrawingMode = true;
+    canvas.selection = true; // Enable canvas selection when drawing
+    canvas.forEachObject(function(object) {
+      object.selectable = true; // Make objects selectable
+    });
   });
 
   var moveButton = document.getElementById('move-button');
   moveButton.addEventListener('click', function() {
     canvas.isDrawingMode = false;
+    canvas.selection = false; // Disable canvas selection when moving
+    canvas.forEachObject(function(object) {
+      object.selectable = false; // Make objects unselectable
+    });
   });
 
   canvas.on('mouse:down', function (options) {
     if (!canvas.isDrawingMode) {
       this.isDragging = true;
-      this.selection = false;
+      this.selection = false; // Disable canvas selection when dragging
       this.lastPosX = options.e.clientX;
       this.lastPosY = options.e.clientY;
     }
@@ -56,6 +64,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   canvas.on('mouse:up', function (options) {
     this.isDragging = false;
-    this.selection = true;
+    this.selection = true; // Enable canvas selection when mouse is up
   });
 });
