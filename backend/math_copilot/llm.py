@@ -65,6 +65,6 @@ def explain_solution(problem: str) -> str:
     return get_chat_model().call_as_llm(context)
 
 
-def provide_solution(self, problem: str) -> str:
+def provide_solution(problem: str) -> str:
     context = f"Given this problem: {problem!r}, say whether it is correct or not"
     return get_chat_model().call_as_llm(context)
