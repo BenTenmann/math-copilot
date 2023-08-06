@@ -93,7 +93,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
   // Render markdown in the panel
   function renderMarkdown(markdown) {
+    var converter = new showdown.Converter(),
+    html = converter.makeHtml(markdown);
+
     var markdownPanel = document.getElementById('markdown-panel');
-    markdownPanel.textContent = markdown;
+    markdownPanel.innerHTML = html;
   }
 });
