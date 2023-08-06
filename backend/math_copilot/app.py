@@ -1,5 +1,6 @@
 import io
 import json
+import logging
 import os
 from typing import Final
 from math_copilot.LLM import LLM
@@ -10,9 +11,11 @@ import requests
 from dotenv import load_dotenv, find_dotenv
 from PIL import Image
 
-from math_copilot import linter
+from math_copilot import linter, utils
 
 load_dotenv(find_dotenv())
+
+LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 
 MATHPIX_APP_ID: Final[str | None] = os.environ.get("MATHPIX_APP_ID")
 MATHPIX_APP_KEY: Final[str | None] = os.environ.get("MATHPIX_APP_KEY")
@@ -45,7 +48,7 @@ def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
     )
     response.raise_for_status()
     latex_expression = response.json()["latex_styled"]
-    isValid =linter.expression_is_correct(latex_expression, {})
+    isValid =linter.latex_expression_is_correct(latex_expression, {})
     if not isValid:
         llm = LLM()
         llm_response = llm.explain_error(latex_expression)

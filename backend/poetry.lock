@@ -162,14 +162,13 @@ doc = ["docutils", "geopandas", "jinja2", "myst-parser", "numpydoc", "pillow", "
 
 [[package]]
 name = "antlr4-python3-runtime"
-version = "4.11.0"
-description = "ANTLR 4.11.0 runtime for Python 3"
+version = "4.7.2"
+description = "ANTLR 4.7.2 runtime for Python 3.6.3"
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "antlr4-python3-runtime-4.11.0.tar.gz", hash = "sha256:6a46d4f6033c8d7e53c8975cee5d83b3ba1b48157f6beb09a4965062dacfe2e0"},
-    {file = "antlr4_python3_runtime-4.11.0-py3-none-any.whl", hash = "sha256:f523f91387283045f129c343b363a8dda3a07eea62721b8eda95f2d8b817b656"},
+    {file = "antlr4-python3-runtime-4.7.2.tar.gz", hash = "sha256:168cdcec8fb9152e84a87ca6fd261b3d54c8f6358f42ab3b813b14a7193bb50b"},
 ]
 
 [[package]]
@@ -1783,6 +1782,21 @@ files = [
 [package.dependencies]
 pydantic = ">=1,<2"
 requests = ">=2,<3"
+
+[[package]]
+name = "latex2sympy2"
+version = "1.9.1"
+description = "Convert latex to sympy with ANTLR and support Matrix, Linear Algebra and CAS functions."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "latex2sympy2-1.9.1-py3-none-any.whl", hash = "sha256:44f24d263d235164a91173167a30d449f4360e3f0a59239ce6b843c50a41c601"},
+]
+
+[package.dependencies]
+antlr4-python3-runtime = "4.7.2"
+sympy = ">=1.4"
 
 [[package]]
 name = "linkify-it-py"
@@ -3895,4 +3909,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "a1c18fcecff5666f84c9895e687b7561327304fdc9b8b46755d714a4e3f59a0b"
+content-hash = "3de12eac402b7f1dccce843a5678e6cfae9020dbec1b74c209999abb6c07c1fa"
