@@ -1,3 +1,5 @@
+const BACKEND_URL = "http://localhost:9000"
+
 window.addEventListener('DOMContentLoaded', (event) => {
   var canvas = new fabric.Canvas('canvas');
   canvas.isDrawingMode = true;
@@ -81,14 +83,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
   // Send image data to server
   function sendToServer(imageData) {
     // Mock server URL
-    var url = "http://mockserver.com/api/sendImage";
+    fetch(`${BACKEND_URL}/latex`, {
+      method: 'POST',
+      body: JSON.stringify({ image: imageData }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+      var markdown = data.latex;
+      renderMarkdown(`${markdown}`);
+    })
+    .catch(error => console.error('Error:', error));
 
     // Mock sending image data to server
     console.log("Sending image data to server: ", imageData);
-
-    // Mock receiving markdown from server
-    var markdown = "## Placeholder Markdown\nThis is some placeholder markdown from the server.";
-    renderMarkdown(markdown);
   }
 
   // Render markdown in the panel
