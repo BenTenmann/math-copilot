@@ -9,13 +9,10 @@ import pydantic
 
 import fastapi
 import requests
-from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
 from math_copilot import linter, utils, llm
-
-load_dotenv(find_dotenv())
 
 LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 

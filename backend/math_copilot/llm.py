@@ -1,9 +1,6 @@
 from typing import Final
 
 from langchain import chat_models
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(find_dotenv())
 
 TYPES: Final[list[str]] = [
     "Algebra",
