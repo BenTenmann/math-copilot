@@ -13,7 +13,7 @@ from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
-from math_copilot import linter, utils,LLM
+from math_copilot import linter, utils, LLM
 
 load_dotenv(find_dotenv())
 
@@ -34,6 +34,7 @@ app.add_middleware(
 class Response(pydantic.BaseModel):
     latex: str
     is_correct: bool
+    explanation: str
 
 
 class Request(pydantic.BaseModel):
@@ -90,10 +91,18 @@ def image_to_latex(r: Request) -> Response:
     result = response.json()
     LOGGER.info(result)
     latex_expression = result["latex_styled"]
+    is_correct = linter.latex_expression_is_correct(latex_expression, {})
+    if not is_correct:
+        llm = LLM.LLM()
+        resp = llm.explain_error(latex_expression)
+    else:
+        resp = ""
     return Response(
         latex=latex_expression,
-        is_correct=linter.latex_expression_is_correct(latex_expression, {})
+        is_correct=is_correct,
+        explanation=resp
     )
+
 
 @app.post("/explainError")
 def explain_error(latex:str)->str:
@@ -109,6 +118,7 @@ def explain_error(latex:str)->str:
     resp = llm.explain_error(latex)
 
     return resp
+
 
 @app.post("/explainSolution")
 def explainSolution(latex:str)->str:
