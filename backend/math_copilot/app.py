@@ -11,7 +11,7 @@ import requests
 from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
-from math_copilot import linter, utils
+from math_copilot import linter, utils,LLM
 
 load_dotenv(find_dotenv())
 
@@ -61,3 +61,33 @@ def image_to_latex(data) -> Response:
         latex=latex_expression,
         is_correct=linter.latex_expression_is_correct(latex_expression, {})
     )
+
+@app.post("/explainError")
+def explain_error(latex:str)->str:
+    """Explain the error in a problem
+
+    Args:
+        problem (str): problem statement
+
+    Returns:
+        str: explanation of error
+    """
+    llm = LLM()
+    resp = llm.explain_error(latex)
+
+    return resp
+
+@app.post("/explainSolution")
+def explainSolution(latex:str)->str:
+    """Explain the solution to a problem
+
+    Args:
+        problem (str): problem statement
+
+    Returns:
+        str: explanation of solution
+    """
+    llm = LLM()
+    resp = llm.explain_solution(latex)
+
+    return resp
