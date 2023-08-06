@@ -1,6 +1,13 @@
+import logging
+from typing import Final
+
 import sympy
-import sympy.parsing.latex
+import latex2sympy2
 from sympy.logic import boolalg as ba
+
+from math_copilot import utils
+
+LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 
 BOOL_MAP: dict[
     ba.BooleanTrue | ba.BooleanFalse,
@@ -19,8 +26,11 @@ def expression_to_bool(expression: ba.BooleanFalse | ba.BooleanTrue) -> bool:
     return BOOL_MAP[type(expression)]
 
 
-def expression_is_correct(latex_string: str, symbols: dict[str, sympy.Symbol]) -> bool:
-    expression: sympy.Basic | ba.BooleanAtom | None = sympy.parsing.latex.parse_latex(latex_string)
+def parse_latex_expression(latex_string: str) -> sympy.Basic:
+    return latex2sympy2.latex2sympy(latex_string)
+
+
+def expression_is_correct(expression: sympy.Basic, symbols: dict[str, sympy.Symbol]) -> bool:
     if expression is None:
         # the expression was not parsed
         return False
@@ -41,3 +51,14 @@ def expression_is_correct(latex_string: str, symbols: dict[str, sympy.Symbol]) -
     # i.e. it is not possible to trivially show the expression is incorrect
     # TODO: see if there are better solvers out there
     return True
+
+
+def latex_expression_is_correct(latex_string: str, symbols: dict[str, sympy.Symbol]) -> bool:
+    try:
+        expression = parse_latex_expression(latex_string)
+    except Exception as e:
+        LOGGER.exception("Error occurred while parsing the LaTeX string")
+        LOGGER.error(str(e))
+        # TODO: better catch parsing errors
+        return True
+    return expression_is_correct(expression, symbols)
