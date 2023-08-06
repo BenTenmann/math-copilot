@@ -13,7 +13,7 @@ from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
-from math_copilot import linter, utils, LLM
+from math_copilot import linter, utils, llm
 
 load_dotenv(find_dotenv())
 
@@ -57,7 +57,6 @@ def rgba_to_rgb(image, color=(255, 255, 255)):
     return bg
 
 
-
 @app.post("/latex")
 def image_to_latex(r: Request) -> Response:
     assert MATHPIX_APP_ID is not None
@@ -93,7 +92,6 @@ def image_to_latex(r: Request) -> Response:
     latex_expression = result["latex_styled"]
     is_correct = linter.latex_expression_is_correct(latex_expression, {})
     if not is_correct:
-        llm = LLM.LLM()
         resp = llm.explain_error(latex_expression)
     else:
         resp = ""
@@ -104,33 +102,29 @@ def image_to_latex(r: Request) -> Response:
     )
 
 
-@app.post("/explainError")
-def explain_error(latex:str)->str:
+@app.post("/explain/error")
+def explain_error(latex: str) -> str:
     """Explain the error in a problem
 
     Args:
-        problem (str): problem statement
+        latex (str): the latex expression
 
     Returns:
         str: explanation of error
     """
-    llm = LLM()
     resp = llm.explain_error(latex)
-
     return resp
 
 
-@app.post("/explainSolution")
-def explainSolution(latex:str)->str:
+@app.post("/explain/solution")
+def explain_solution(latex: str) -> str:
     """Explain the solution to a problem
 
     Args:
-        problem (str): problem statement
+        latex (str): the latex expression
 
     Returns:
         str: explanation of solution
     """
-    llm = LLM()
     resp = llm.explain_solution(latex)
-
     return resp
