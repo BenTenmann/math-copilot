@@ -4,8 +4,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
   canvas.freeDrawingBrush.width = 5;
   canvas.freeDrawingBrush.color = '#000000';
 
+  var markdownPanelWidth = document.getElementById('markdown-panel').offsetWidth;
+
   function resizeCanvas() {
-    canvas.setWidth(window.innerWidth);
+    canvas.setWidth(window.innerWidth - markdownPanelWidth);
     canvas.setHeight(window.innerHeight);
     canvas.renderAll();
   }
@@ -66,4 +68,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
     this.isDragging = false;
     this.selection = true; // Enable canvas selection when mouse is up
   });
+
+  // Convert canvas to image
+  function convertToImage() {
+    var imageData = canvas.toDataURL("image/png");
+    sendToServer(imageData);
+  }
+
+  var convertButton = document.getElementById('convert-button');
+  convertButton.addEventListener('click', convertToImage);
+
+  // Send image data to server
+  function sendToServer(imageData) {
+    // Mock server URL
+    var url = "http://mockserver.com/api/sendImage";
+
+    // Mock sending image data to server
+    console.log("Sending image data to server: ", imageData);
+
+    // Mock receiving markdown from server
+    var markdown = "## Placeholder Markdown\nThis is some placeholder markdown from the server.";
+    renderMarkdown(markdown);
+  }
+
+  // Render markdown in the panel
+  function renderMarkdown(markdown) {
+    var markdownPanel = document.getElementById('markdown-panel');
+    markdownPanel.textContent = markdown;
+  }
 });
