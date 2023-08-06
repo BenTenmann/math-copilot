@@ -2,6 +2,7 @@ import io
 import json
 import os
 from typing import Final
+from math_copilot.LLM import LLM
 
 import gradio as gr
 import numpy as np
@@ -44,7 +45,12 @@ def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
     )
     response.raise_for_status()
     latex_expression = response.json()["latex_styled"]
-    is_correct = str(linter.expression_is_correct(latex_expression, {}))
+    isValid =linter.expression_is_correct(latex_expression, {})
+    if not isValid:
+        llm = LLM()
+        llm_response = llm.explain_error(latex_expression)
+        print(llm_response)
+    is_correct = str(isValid)
     if "$" not in latex_expression:
         latex_expression = f"$$\n{latex_expression}\n$$"
     return latex_expression, [(is_correct, is_correct)]

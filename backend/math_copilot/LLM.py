@@ -47,6 +47,9 @@ class LLM():
         context=f"Given this problem: \'{problem}\', first show the answer and then show detailed steps on how to get to the solution"
         return self._call(context)
 
+    def provide_solution(self, problem:str)->str:
+        context=f"Given this problem: \'{problem}\', say whether it is correct or not"
+        return self._call(context)
 
     def _call(self, content:str)->str:
         """Calling GPT-3 to generate an response
