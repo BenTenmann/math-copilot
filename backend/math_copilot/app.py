@@ -1,10 +1,14 @@
 import io
 import json
 import os
-from dotenv import load_dotenv, find_dotenv
+
 import gradio as gr
+import numpy as np
 import requests
+from dotenv import load_dotenv, find_dotenv
 from PIL import Image
+
+from math_copilot import linter
 
 load_dotenv(find_dotenv())
 
@@ -12,7 +16,7 @@ MATHPIX_APP_ID: str = os.environ.get("MATHPIX_APP_ID")
 MATHPIX_APP_KEY: str = os.environ.get("MATHPIX_APP_KEY")
 
 
-def fn(img):
+def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
     image = Image.fromarray(img)
     filehandle = io.BytesIO()
     image.save(filehandle, "jpeg")
@@ -35,7 +39,11 @@ def fn(img):
         headers=headers,
     )
     response.raise_for_status()
-    return response.json()["latex_styled"]
+    latex_expression = response.json()["latex_styled"]
+    is_correct = str(linter.expression_is_correct(latex_expression, {}))
+    if "$" not in latex_expression:
+        latex_expression = f"$$\n{latex_expression}\n$$"
+    return latex_expression, [(is_correct, is_correct)]
 
 
 def main():
@@ -49,7 +57,10 @@ def main():
             tool="brush",
             brush_radius=10,
         ),
-        outputs="text",
+        outputs=[
+            gr.Markdown(),
+            gr.HighlightedText().style(color_map={"True": "green", "False": "red"})
+        ],
         title="Math Copilot",
     ).launch()
 
