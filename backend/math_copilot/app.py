@@ -1,6 +1,7 @@
 import io
 import json
 import os
+from typing import Final
 
 import gradio as gr
 import numpy as np
@@ -12,11 +13,14 @@ from math_copilot import linter
 
 load_dotenv(find_dotenv())
 
-MATHPIX_APP_ID: str = os.environ.get("MATHPIX_APP_ID")
-MATHPIX_APP_KEY: str = os.environ.get("MATHPIX_APP_KEY")
+MATHPIX_APP_ID: Final[str | None] = os.environ.get("MATHPIX_APP_ID")
+MATHPIX_APP_KEY: Final[str | None] = os.environ.get("MATHPIX_APP_KEY")
 
 
 def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
+    assert MATHPIX_APP_ID is not None
+    assert MATHPIX_APP_KEY is not None
+
     image = Image.fromarray(img)
     filehandle = io.BytesIO()
     image.save(filehandle, "jpeg")
