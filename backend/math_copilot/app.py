@@ -1,3 +1,4 @@
+import base64
 import io
 import json
 import logging
@@ -10,6 +11,7 @@ import fastapi
 import requests
 from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from PIL import Image
 
 from math_copilot import linter, utils
 
@@ -35,9 +37,15 @@ class Response(pydantic.BaseModel):
 
 
 @app.post("/latex")
-def image_to_latex(data) -> Response:
+def image_to_latex(imgstr: str) -> Response:
     assert MATHPIX_APP_ID is not None
     assert MATHPIX_APP_KEY is not None
+    pure_base64_str = imgstr.split(",")[1]
+    imgdata = base64.b64decode(pure_base64_str)
+    image = Image.open(io.BytesIO(imgdata))
+    filehandle = io.BytesIO()
+    image.save(filehandle, "jpeg")
+    filehandle.seek(0)
     headers = {
         "app_id": MATHPIX_APP_ID,
         "app_key": MATHPIX_APP_KEY,
@@ -52,7 +60,7 @@ def image_to_latex(data) -> Response:
                 }
             )
         },
-        files={"file": data},
+        files={"file": filehandle},
         headers=headers,
     )
     response.raise_for_status()
