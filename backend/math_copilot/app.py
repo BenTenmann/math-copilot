@@ -21,7 +21,7 @@ MATHPIX_APP_ID: Final[str | None] = os.environ.get("MATHPIX_APP_ID")
 MATHPIX_APP_KEY: Final[str | None] = os.environ.get("MATHPIX_APP_KEY")
 
 
-def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
+def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]], str]:
     assert MATHPIX_APP_ID is not None
     assert MATHPIX_APP_KEY is not None
 
@@ -53,10 +53,12 @@ def fn(img: np.ndarray) -> tuple[str, list[tuple[str, str]]]:
         llm = LLM()
         llm_response = llm.explain_error(latex_expression)
         print(llm_response)
+    else:
+        llm_response = ""
     is_correct = str(isValid)
     if "$" not in latex_expression:
         latex_expression = f"$$\n{latex_expression}\n$$"
-    return latex_expression, [(is_correct, is_correct)]
+    return latex_expression, [(is_correct, is_correct)], llm_response
 
 
 def main():
@@ -72,7 +74,8 @@ def main():
         ),
         outputs=[
             gr.Markdown(),
-            gr.HighlightedText().style(color_map={"True": "green", "False": "red"})
+            gr.HighlightedText().style(color_map={"True": "green", "False": "red"}),
+            gr.Markdown()
         ],
         title="Math Copilot",
     ).launch()
