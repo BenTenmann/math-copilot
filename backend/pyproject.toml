@@ -12,6 +12,7 @@ python = "^3.10"
 gradio = "^3.32.0"
 pytesseract = "^0.3.10"
 sympy = "^1.12"
+antlr4-python3-runtime = "==4.11"
 
 
 [tool.poetry.group.dev.dependencies]
