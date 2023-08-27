@@ -90,7 +90,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     })
     .then(response => response.json())
     .then(data => {
-      var markdown = `\$\$\n${data.latex}\n\$\$`;
+      var markdown = data.latex;
       if (!data.is_correct) {
         markdown = `${markdown} <br><span style="color:red">MathError</span>`
       }
