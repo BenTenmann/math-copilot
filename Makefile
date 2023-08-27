@@ -17,6 +17,6 @@ backend:
 	cd $(BACKEND_DIR) && $(UVICORN) math_copilot.app:app
 
 frontend:
-	cd $(BACKEND_DIR) && $(POETRY) -C $(ROOT_DIR) -m http.server -d $(FRONTEND_DIR)
+	cd $(BACKEND_DIR) && $(POETRY) python -m http.server -d $(FRONTEND_DIR)
 
 all: backend frontend
