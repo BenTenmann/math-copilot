@@ -67,16 +67,21 @@ def image_to_latex(r: Request) -> Response:
     latex_expression = mathpix.image_to_latex(filehandle, logger=LOGGER)
     lines_of_latex = mathpix.split_latex_lines(latex_expression)
     lines_of_latex_are_valid = []
-    for latex_expression in lines_of_latex:
-        lines_of_latex_are_valid.append(
-            linter.latex_expression_is_correct(latex_expression, {})
-        )
-    if not all(lines_of_latex_are_valid):
-        resp = llm.explain_error(lines_of_latex)
+    # for latex_expression in lines_of_latex:
+    #     lines_of_latex_are_valid.append(
+    #         linter.latex_expression_is_correct(latex_expression, {})
+    #     )
+    # if not all(lines_of_latex_are_valid):
+    #     resp = llm.explain_error(lines_of_latex)
+    is_correct = llm.check_for_correctness(lines_of_latex)
+    if not is_correct:
+        explanation = llm.explain_error(lines_of_latex)
     else:
-        resp = ""
+        explanation = ""
+    lines_of_latex = [f"$$ {latex_expression} $$" for latex_expression in lines_of_latex]
+    print(f"lines of latex for md", lines_of_latex)
     return Response(
-        latex=latex_expression, is_correct=all(lines_of_latex_are_valid), explanation=resp
+        latex="\n\n".join(lines_of_latex), is_correct=is_correct, explanation=explanation
     )
 
 

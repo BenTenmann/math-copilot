@@ -33,6 +33,22 @@ def classify_variable_type(problem: str) -> str:
     pass
 
 
+def check_for_correctness(problem: list[str]) -> bool:
+    """Explain the error in a problem
+
+    Args:
+        problem (str): problem statement
+
+    Returns:
+        str: explanation of error
+    """
+    problem = "\n".join(problem)
+    print(f"check_for_correctness: {problem}")
+    context = f"Is there a mistake with the maths? Answer with yes or no only. (Don't worry about the latex itself, just the maths.) Also, if there's not enough context don't worry: {problem!r}"
+    response = get_chat_model().call_as_llm(context, max_tokens=1) 
+    print(f"check_for_correctness: {response}")
+    return response.lower() == "no"
+
 def explain_error(problem: list[str]) -> str:
     """Explain the error in a problem
 
