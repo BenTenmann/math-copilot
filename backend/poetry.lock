@@ -801,6 +801,20 @@ files = [
 ]
 
 [[package]]
+name = "exceptiongroup"
+version = "1.1.3"
+description = "Backport of PEP 654 (exception groups)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "exceptiongroup-1.1.3-py3-none-any.whl", hash = "sha256:343280667a4585d195ca1cf9cef84a4e178c4b6cf2274caef9859782b567d5e3"},
+    {file = "exceptiongroup-1.1.3.tar.gz", hash = "sha256:097acd85d473d75af5bb98e41b61ff7fe35efe6675e4f9370ec6ec5126d160e9"},
+]
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "executing"
 version = "1.2.0"
 description = "Get the currently executing AST node of a frame, and other information"
@@ -1257,14 +1271,25 @@ files = [
 ]
 
 [[package]]
+name = "iniconfig"
+version = "2.0.0"
+description = "brain-dead simple config-ini parsing"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
+    {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
+]
+
+[[package]]
 name = "ipykernel"
-version = "6.23.1"
+version = "6.25.1"
 description = "IPython Kernel for Jupyter"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "ipykernel-6.23.1-py3-none-any.whl", hash = "sha256:77aeffab056c21d16f1edccdc9e5ccbf7d96eb401bd6703610a21be8b068aadc"},
-    {file = "ipykernel-6.23.1.tar.gz", hash = "sha256:1aba0ae8453e15e9bc6b24e497ef6840114afcdb832ae597f32137fa19d42a6f"},
+    {file = "ipykernel-6.25.1-py3-none-any.whl", hash = "sha256:c8a2430b357073b37c76c21c52184db42f6b4b0e438e1eb7df3c4440d120497c"},
+    {file = "ipykernel-6.25.1.tar.gz", hash = "sha256:050391364c0977e768e354bdb60cbbfbee7cbb943b1af1618382021136ffd42f"},
 ]
 
 [package.dependencies]
@@ -2669,6 +2694,21 @@ docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.2.1)", "sphinx-
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
 
 [[package]]
+name = "pluggy"
+version = "1.3.0"
+description = "plugin and hook calling mechanisms for python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pluggy-1.3.0-py3-none-any.whl", hash = "sha256:d89c696a773f8bd377d18e5ecda92b7a3793cbe66c87060a6fb58c7b6e1061f7"},
+    {file = "pluggy-1.3.0.tar.gz", hash = "sha256:cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"},
+]
+
+[package.extras]
+dev = ["pre-commit", "tox"]
+testing = ["pytest", "pytest-benchmark"]
+
+[[package]]
 name = "prometheus-client"
 version = "0.16.0"
 description = "Python client for the Prometheus monitoring system."
@@ -2899,6 +2939,28 @@ files = [
 [package.dependencies]
 packaging = ">=21.3"
 Pillow = ">=8.0.0"
+
+[[package]]
+name = "pytest"
+version = "7.4.0"
+description = "pytest: simple powerful testing with Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest-7.4.0-py3-none-any.whl", hash = "sha256:78bf16451a2eb8c7a2ea98e32dc119fd2aa758f1d5d66dbf0a59d69a3969df32"},
+    {file = "pytest-7.4.0.tar.gz", hash = "sha256:b4bf8c45bd59934ed84001ad51e11b4ee40d40a1229d2c79f9c592b0a3f6bd8a"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+exceptiongroup = {version = ">=1.0.0rc8", markers = "python_version < \"3.11\""}
+iniconfig = "*"
+packaging = "*"
+pluggy = ">=0.12,<2.0"
+tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
+
+[package.extras]
+testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
 name = "python-dateutil"
@@ -3841,4 +3903,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "bf931e7cbca9ced09c124bffbe68f19d15eb2e603c09419bf9b77ff7b3791411"
+content-hash = "3c08a0b96d383b59e717eeda891de60625d83cac4e2f5a167314027e687866e3"

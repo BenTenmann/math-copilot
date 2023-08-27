@@ -25,3 +25,6 @@ format:
 	cd $(BACKEND_DIR)  \
 	&& $(POETRY) black . --line-length 90  \
 	&& $(POETRY) isort --profile black .
+
+test:
+	cd $(BACKEND_DIR) && $(POETRY) python -m pytest -rA tests 
