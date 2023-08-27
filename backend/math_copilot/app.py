@@ -1,13 +1,11 @@
 import base64
 import io
-import json
 import logging
 import os
 from typing import Final
 
 import fastapi
 import pydantic
-import requests
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
@@ -67,18 +65,19 @@ def image_to_latex(r: Request) -> Response:
     image.save(filehandle, "jpeg")
     filehandle.seek(0)
     latex_expression = mathpix.image_to_latex(filehandle, logger=LOGGER)
-    # TODO: handle multiple lines
-    # identify
-    lines_of_latex = [
-        "x + 2 = 3",  # <- line 1
-        "x + 5 = 3",  # <- line 2
-    ]
-    is_correct = linter.latex_expression_is_correct(latex_expression, {})
-    if not is_correct:
-        resp = llm.explain_error(latex_expression)
+    lines_of_latex = mathpix.split_latex_lines(latex_expression)
+    lines_of_latex_are_valid = []
+    for latex_expression in lines_of_latex:
+        lines_of_latex_are_valid.append(
+            linter.latex_expression_is_correct(latex_expression, {})
+        )
+    if not all(lines_of_latex_are_valid):
+        resp = llm.explain_error(lines_of_latex)
     else:
         resp = ""
-    return Response(latex=latex_expression, is_correct=is_correct, explanation=resp)
+    return Response(
+        latex=latex_expression, is_correct=all(lines_of_latex_are_valid), explanation=resp
+    )
 
 
 @app.post("/explain/error")

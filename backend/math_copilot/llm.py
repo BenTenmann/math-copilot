@@ -33,7 +33,7 @@ def classify_variable_type(problem: str) -> str:
     pass
 
 
-def explain_error(problem: str) -> str:
+def explain_error(problem: list[str]) -> str:
     """Explain the error in a problem
 
     Args:
@@ -42,7 +42,8 @@ def explain_error(problem: str) -> str:
     Returns:
         str: explanation of error
     """
-    context = f"This expression is wrong: {problem!r}, explain why it is wrong"
+    problem = "\n".join(problem)
+    context = f"The following is not correct: {problem!r}, explain why it is wrong."
     return get_chat_model().call_as_llm(context)
 
 
