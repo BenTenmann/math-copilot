@@ -20,3 +20,8 @@ frontend:
 	cd $(BACKEND_DIR) && $(POETRY) python -m http.server -d $(FRONTEND_DIR)
 
 all: backend frontend
+
+format:
+	cd $(BACKEND_DIR)  \
+	&& $(POETRY) black . --line-length 90  \
+	&& $(POETRY) isort --profile black .

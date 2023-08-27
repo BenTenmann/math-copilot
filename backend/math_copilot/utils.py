@@ -4,6 +4,7 @@ from typing import Final
 
 class ColorFormatter(logging.Formatter):
     """Logging formatter that adds colors to the log levels."""
+
     _colors: Final[dict[str, str]] = {
         "DEBUG": "\033[94m",
         "INFO": "\033[92m",

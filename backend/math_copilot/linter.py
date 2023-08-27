@@ -1,18 +1,15 @@
 import logging
 from typing import Final
 
-import sympy
 import latex2sympy2
+import sympy
 from sympy.logic import boolalg as ba
 
 from math_copilot import utils
 
 LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 
-BOOL_MAP: dict[
-    ba.BooleanTrue | ba.BooleanFalse,
-    bool
-] = {
+BOOL_MAP: dict[ba.BooleanTrue | ba.BooleanFalse, bool] = {
     ba.BooleanFalse: False,
     ba.BooleanTrue: True,
 }
@@ -30,7 +27,9 @@ def parse_latex_expression(latex_string: str) -> sympy.Basic:
     return latex2sympy2.latex2sympy(latex_string)
 
 
-def expression_is_correct(expression: sympy.Basic, symbols: dict[str, sympy.Symbol]) -> bool:
+def expression_is_correct(
+    expression: sympy.Basic, symbols: dict[str, sympy.Symbol]
+) -> bool:
     if expression is None:
         # the expression was not parsed
         return False
@@ -53,7 +52,9 @@ def expression_is_correct(expression: sympy.Basic, symbols: dict[str, sympy.Symb
     return True
 
 
-def latex_expression_is_correct(latex_string: str, symbols: dict[str, sympy.Symbol]) -> bool:
+def latex_expression_is_correct(
+    latex_string: str, symbols: dict[str, sympy.Symbol]
+) -> bool:
     try:
         expression = parse_latex_expression(latex_string)
     except Exception as e:

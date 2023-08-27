@@ -5,14 +5,13 @@ import logging
 import os
 from typing import Final
 
-import pydantic
-
 import fastapi
+import pydantic
 import requests
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
-from math_copilot import linter, utils, llm
+from math_copilot import linter, llm, utils
 
 LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
 
@@ -87,16 +86,18 @@ def image_to_latex(r: Request) -> Response:
     result = response.json()
     LOGGER.info(result)
     latex_expression = result["latex_styled"]
+    # TODO: handle multiple lines
+    # identify
+    lines_of_latex = [
+        "x + 2 = 3",  # <- line 1
+        "x + 5 = 3",  # <- line 2
+    ]
     is_correct = linter.latex_expression_is_correct(latex_expression, {})
     if not is_correct:
         resp = llm.explain_error(latex_expression)
     else:
         resp = ""
-    return Response(
-        latex=latex_expression,
-        is_correct=is_correct,
-        explanation=resp
-    )
+    return Response(latex=latex_expression, is_correct=is_correct, explanation=resp)
 
 
 @app.post("/explain/error")
