@@ -47,3 +47,12 @@ def image_to_latex(file_handle: typing.BinaryIO, logger=None) -> str:
     if logger:
         logger.info(result)
     return result["latex_styled"]
+
+
+def split_latex_lines(x: str) -> list[str]:
+    """Split a latex expression into lines"""
+    x = x.replace("\\begin{aligned}\n", "")
+    x = x.replace("\n\\end{aligned}", "")
+    x = x.replace("\\\\\n", "\n")
+    lines = x.split("\n")
+    return [line.strip() for line in lines]

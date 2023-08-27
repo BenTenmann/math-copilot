@@ -11,6 +11,7 @@ import requests
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
+import math_copilot.mathpix as mathpix
 from math_copilot import linter, llm, utils
 
 LOGGER: Final[logging.Logger] = utils.get_logger(__name__)
@@ -65,27 +66,7 @@ def image_to_latex(r: Request) -> Response:
     image = rgba_to_rgb(image)
     image.save(filehandle, "jpeg")
     filehandle.seek(0)
-    headers = {
-        "app_id": MATHPIX_APP_ID,
-        "app_key": MATHPIX_APP_KEY,
-    }
-    response = requests.post(
-        "https://api.mathpix.com/v3/text",
-        data={
-            "json_options": json.dumps(
-                {
-                    "rm_spaces": True,
-                    "math_inline_delimiters": ["$", "$"],
-                }
-            )
-        },
-        files={"file": filehandle},
-        headers=headers,
-    )
-    response.raise_for_status()
-    result = response.json()
-    LOGGER.info(result)
-    latex_expression = result["latex_styled"]
+    latex_expression = mathpix.image_to_latex(filehandle, logger=LOGGER)
     # TODO: handle multiple lines
     # identify
     lines_of_latex = [
