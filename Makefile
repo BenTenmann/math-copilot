@@ -7,12 +7,16 @@ POETRY = poetry run
 PYTHON = $(POETRY) python
 UVICORN = $(POETRY) uvicorn --reload --port 9000
 
+ROOT_DIR := $(shell pwd)
+BACKEND_DIR := $(ROOT_DIR)/backend
+FRONTEND_DIR := $(ROOT_DIR)/frontend
+
 .PHONY: frontend backend all
 
 backend:
-	cd backend && $(UVICORN) math_copilot.app:app
+	cd $(BACKEND_DIR) && $(UVICORN) math_copilot.app:app
 
 frontend:
-	python -m http.server -d ./frontend/web_app
+	cd $(BACKEND_DIR) && $(POETRY) -C $(ROOT_DIR) -m http.server -d $(FRONTEND_DIR)
 
 all: backend frontend
