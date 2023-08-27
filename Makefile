@@ -13,6 +13,9 @@ FRONTEND_DIR := $(ROOT_DIR)/frontend/web_app
 
 .PHONY: frontend backend all
 
+install:
+	cd $(BACKEND_DIR) && poetry install
+
 backend:
 	cd $(BACKEND_DIR) && $(UVICORN) math_copilot.app:app
 
