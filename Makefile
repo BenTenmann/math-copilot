@@ -9,7 +9,7 @@ UVICORN = $(POETRY) uvicorn --reload --port 9000
 
 ROOT_DIR := $(shell pwd)
 BACKEND_DIR := $(ROOT_DIR)/backend
-FRONTEND_DIR := $(ROOT_DIR)/frontend
+FRONTEND_DIR := $(ROOT_DIR)/frontend/web_app
 
 .PHONY: frontend backend all
 
